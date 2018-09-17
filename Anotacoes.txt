@@ -1,0 +1,21 @@
+	Observações para fixação: (Do not commit!)
+
+Em um parametro de funcao:
+ Para representar a lista com head e tail: Ex.: (x:xs)
+ Para representar uma lista como uma variavel "normal": Ex.: xs
+
+Representar uma lista usando head e tail:
+ Podemos usar os operadores/funcoes head e tail
+ Podemos usar o operador cons (:). Ex.: x:xs
+
+head - primeiro elemento da lista
+last - ultimo elemento da lista
+tail - cauda da lista
+init - Recebe uma lista e retorna a lista sem o ultimo elemento
+
+Negar um booleano: usa "not".
+
+Take i [lista] => Pega os elementos até a posicao i da lista! (Considerando 
+as posicoes começando de 1).
+Drop i [lista] => Ignora os elementos até a posicao i da lista! (Considerando
+que a lista começa da posicao 1).
