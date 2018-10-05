@@ -40,3 +40,46 @@ tuple3 _ = Nada
 
 tuple4 (Tuple4 a b c d) = Somente d 
 tuple4 _ = Nada
+
+
+{-TIPOS DE DADOS RECURSIVOS-}
+
+{-LISTAS-}
+{-Pode ser Nada ou uma cabeca ligada a uma cauda (que é uma lista tbm-}
+data Lista a = Vazia | Cons a (Lista a) deriving (Eq, Show) {-Tipo de dado recursivo, pode ser Nada ou definido em termos de si mesmo-}
+
+{-Funcoes sobre listas-}
+{-Tamanho (com pattern matching)-}
+tamanho Vazia = 0
+tamanho (Cons a as) = 1 + tamanho as
+
+imprimeLista Vazia = []
+imprimeLista (Cons a bc) = a:imprimeLista bc
+
+cabeca (Cons a as) = a
+cabeca (Vazia) = error "Nao ha cabeca para lista vazia"
+
+cauda Vazia = error "Nao ha cauda para uma lista vazia"
+cauda (Cons a as) = as 
+
+ultimo Vazia = error "Nao ha ultimo para uma lista vazia"
+ultimo (Cons a Vazia) = a 
+ultimo (Cons a as) = ultimo as
+
+
+{-BST-}
+
+data BST a = NIL | Node a (BST a) (BST a) deriving (Show)
+
+{-Tamanho de uma BST: Usando pattern matching-}
+tamanhoBST NIL = 0
+tamanhoBST (Node raiz esq dir) = 1 + tamanhoBST esq + tamanhoBST dir
+
+
+{-Type: SINONIMOS - PERMITEM A CRIACAO DE NOVOS TIPOS A PARTIR DOS TIPOS EXISTENTES
+-> A PALAVRA CHAVE: type: PERMITE DEFINIR NOVOS TIPOS A PARTIR DOS TIPOS EXISTENTES (SINONIMOS) - 
+melhora a legibilidade-}
+type IdCliente = Int
+
+retornaId :: Int -> IdCliente
+retornaId x = 3
