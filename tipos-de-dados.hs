@@ -22,7 +22,6 @@ secondTwo (Quadruple _ _ a b) = [a,b]
 --Escreva um tipo de dados que pode conter um, dois, tres ou quatro elementos, dependendo do construtor
 --Implemente funções tuple1 até tuple4 que que retornam Just <valor> ou Nothing se o valor nao existe
 data Tuple a b c d = Tuple1 a | Tuple2 a b | Tuple3 a b c | Tuple4 a b c d deriving (Eq, Show)
-data Talvez a = Nada | Somente a deriving (Eq, Show)
 
 tuple1 (Tuple1 a) = Somente a
 tuple1 (Tuple2 a b) = Somente a
@@ -61,6 +60,9 @@ listLast (Cons x xs) = listLast xs
 
 
 
+{-AUXILIAR-}
+data Talvez a = Nada | Somente a deriving (Eq, Show)
+
 --Escreva as funcoes sobre a estrutura de dados binary tree
 data BinaryTree a = NIL | Node a (BinaryTree a) (BinaryTree a) deriving (Eq, Show, Ord) --O fato de se usar a torna a binaryTree
 --uma binaryTree de um só tipo (o tipo a). Haskell definira por inferencia de tipos
@@ -88,8 +90,71 @@ insert elem NIL = Node elem NIL NIL
 {-Passo recursivo-}
 insert elem (Node a b c) = if(a >= elem) then Node a (insert elem b) c else Node a b (insert elem c) 
 
+{-Search em uma bst-}
 search elem NIL = NIL
-search elem (Node a b c) = if (a==elem) then Node a b c else if (a >= elem) then search elem b else search elem c 
+search elem (Node a b c) = if (a==elem) then Node a b c else if (a >= elem) then search elem b else search elem c
+
+--retorna o elemento maximo da BST (Nesse caso, estou retornando o no que tem o elem max.)
+maximumBST NIL = Nada
+maximumBST (Node a b c) = if (c==NIL) then Somente a else (maximumBST c)
+
+--retorna o elemento minimo da BST
+minimumBST NIL = Nada
+minimumBST (Node a b c) = if(b==NIL) then Somente a else minimumBST b
+
+--retorna o predecessor de um elemento da BST, caso o elemento esteja na BST
+--Para calcular o predecessor, passa o elemento que se quer o predecessor dele e a BST como parametro
+--Retorna um elemento do tipo Talvez a
+{-O no do elemento que se quer o predecessor:
+    -> Tem filho a esquerda: *
+    -> Nao tem filho a esquerda: -}
+predecessor x NIL = Nada
+predecessor x bst = if((getLeft (search x bst)) /= NIL) then maximumBST (getLeft (search x bst)) else --O maior menor do que o elemento x
+    if((length ([y | y <- (getAllNodes bst), y < x])) > 0) then Somente (maximum ([y | y <- (getAllNodes bst), y < x])) else Nada
+
+--Sucessor é o menor dos maiores
+sucessor x NIL = Nada
+sucessor x (bst) = if((length ([y | y <- (getAllNodes bst), y > x]) > 0)) then Somente (minimum ([y | y <- (getAllNodes bst), y > x])) else Nada
+
+    
+
+
+
+
+{-Auxiliares: Predecessor e sucessor-}
+getLeft NIL = NIL
+getLeft (Node a b c) = b
+
+getRight NIL = NIL
+getRight (Node a b c) = c
+
+getAllNodes NIL = []
+getAllNodes (Node a b c) = [a] ++ (getAllNodes b) ++ (getAllNodes c)
+
+
+--retorna uma lista com os dados da BST nos diversos tipos de caminhamento
+--preOrder -> raiz,esq,dir
+preOrder NIL = []
+preOrder (Node a b c) = [a] ++ preOrder b ++ preOrder c
+
+--order -> esq,raiz,dir
+order NIL = []
+order (Node a b c) = order b ++ [a] ++ order c
+
+--postOrder -> esq,dir,raiz
+postOrder NIL = []
+postOrder (Node a b c) = postOrder b ++ postOrder c ++ [a]
+
+
+
+
+
+
+
+
+
+
+
 
 
 
