@@ -86,7 +86,16 @@ searchQuantity x bag = if (bag == []) then 0 else if (fst (head bag) == x ) then
 {-
  - Realiza a soma deste Bag com otherBag. A soma de dois bags contem os elementos dos dois bags com suas quantidades somadas. 
 -}
-sumBag bag1 bag2 = undefined
+--Todos os elementos que estao na soma de sumBag' + todos os elementos que estao apenas em bag2 (esses ultimos
+-- nao foram considerados na soma de sumBag' :(  )
+sumBag bag1 bag2 = [x | x <- (union (sumBag' bag1 bag2) (sumBag' bag2 bag1))] 
+
+--Essa funcao abaixo nao considera elementos que aparecem somente em bag2, considera-se isso em sumbag
+sumBag' bag1 bag2 = if(bag1 == []) then [] else sumBagAux (head bag1) (bag2) ++ sumBag' (tail bag1) bag2
+
+--Soma uma tupla (elemento da bag) em uma bag, retornando uma lista com a tupla resultante da soma
+sumBagAux tuple bag = if(bag == []) then [tuple] else if (fst (head bag) == fst tuple) 
+    then [(fst tuple, snd (head bag) + snd tuple)] else sumBagAux tuple (tail bag)
 
 {-
  - Retorna a quantidade total de elementos no Bag
