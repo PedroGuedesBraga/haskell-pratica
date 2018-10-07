@@ -82,4 +82,45 @@ removeElem e (x:xs)
     | e == x = removeElem e xs
     | otherwise = x:(removeElem e xs)
 
- 
+
+
+
+
+{-
+- Varre a lista da esquerda para a direita e junta os elementos iguais. Ex: compact [2,5,8,2,1,8] = [2,2,5,8,8,1]
+- Voce pode usar funcoes sobre listas como : (cons), filter, etc.
+-}
+
+--Esse compact foi feito de forma diferente, usando apenas filter
+compact' [] = []
+compact' xs = (filter (== (head xs)) xs) ++ (compact(filter (/=(head xs)) xs))
+
+
+{-
+- Insere um elemento em uma posicao especifica de uma lista. 
+- Ex: insertAt 7 4 [3,6,1,9,4] = [3,6,1,7,9,4]
+-}
+--take n xs: Pega os n primeiros elementos de xs
+--drop n xs: Retorna a lista sem os n primeiros elementos de xs
+
+insertAt el pos xs = (take (pos - 1) xs) ++ [el] ++ (drop (pos - 1) xs)
+
+
+{-
+- Transforma uma string em uma palindrome acrescentando o reverso da string ao seu final sem usar a funcao reverse. 
+- Ex: buildPalindrome [1,2,3] = [1,2,3,3,2,1]. 
+-}
+buildPalindrome xs = xs ++ (meuReverse xs)
+
+--Usando last e init para fazer um reverse de uma lista
+meuReverse xs = if(xs == []) then [] else [last xs] ++ meuReverse (init xs)
+
+
+{-
+- Computa a media dos elementos de uma lista de numeros, sem usar nenhuma funcao pronta de listas.
+-}
+myMean xs = (soma xs) / (tamanho xs)
+
+soma xs = if(xs == []) then 0 else (head xs) + (soma (tail xs))
+
+tamanho xs = if(xs == []) then 0 else 1 + tamanho (tail xs)
